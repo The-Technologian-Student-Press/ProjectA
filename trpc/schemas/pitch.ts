@@ -18,12 +18,16 @@ export const pitchDetailsSchema = z.object({
     .string()
     .min(10, "Please provide more details about your pitch"),
   penName: z.string().min(1, "Pen name is required"),
-  fileAttachment: z.instanceof(File).optional(),
-  linkUrl: z.string().url().optional().or(z.literal("")),
+});
+
+// File upload schema
+export const fileUploadSchema = z.object({
+  files: z.array(z.instanceof(File)).optional(),
+  links: z.array(z.string().url()).optional(),
 });
 
 // Combined pitch form schema
-export const pitchFormSchema = personalInfoSchema.merge(pitchDetailsSchema);
+export const pitchFormSchema = personalInfoSchema.merge(pitchDetailsSchema).merge(fileUploadSchema);
 
 // CIT ID validation schema
 export const citIdValidationSchema = z.object({

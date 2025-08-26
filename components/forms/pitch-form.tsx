@@ -13,6 +13,7 @@ import { trpc } from "@/trpc/client";
 import { Form } from "@/components/ui/form";
 import { PersonalInfoStep } from "./personal-info-step";
 import { PitchDetailsStep } from "./pitch-details-step";
+import { FileUploadStep } from "./file-upload-step";
 import { Button } from "@/components/ui/button";
 import {
   getDefaultFormValues,
@@ -26,8 +27,8 @@ export function PitchForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionId, setSubmissionId] = useState<string>("");
-  const [fileAttachment, setFileAttachment] = useState<File | undefined>();
-  const [linkUrl, setLinkUrl] = useState(getDefaultFormValues().linkUrl);
+  const [files, setFiles] = useState<File[]>([]);
+  const [links, setLinks] = useState<string[]>([]);
 
   const form = useForm<PitchFormData>({
     resolver: zodResolver(pitchFormSchema),
@@ -67,6 +68,8 @@ export function PitchForm() {
           });
         });
       }
+    } else if (currentStep === 2) {
+      setCurrentStep(3);
     }
   };
 
@@ -79,8 +82,8 @@ export function PitchForm() {
   const onSubmit = (data: PitchFormData) => {
     const submitData = {
       ...data,
-      fileAttachment,
-      linkUrl,
+      files,
+      links,
     };
     submitMutation.mutate(submitData);
   };
@@ -173,15 +176,26 @@ export function PitchForm() {
             >
               Pitch Details
             </span>
+            <span
+              className={`text-sm font-medium ${
+                currentStep >= 3 ? "text-primary" : "text-muted-foreground"
+              }`}
+            >
+              File Attachments
+            </span>
           </div>
-          <Progress value={currentStep * 50} className="h-2" />
+          <Progress value={currentStep * 33.33} className="h-2" />
         </div>
 
         {/* Form */}
         <Card className="w-full max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
-              {currentStep === 1 ? "Personal Information" : "Pitch Details"}
+              {currentStep === 1
+                ? "Personal Information"
+                : currentStep === 2
+                ? "Pitch Details"
+                : "File Attachments"}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -194,10 +208,18 @@ export function PitchForm() {
                 {currentStep === 2 && (
                   <PitchDetailsStep
                     onPrevious={handlePreviousStep}
-                    fileAttachment={fileAttachment}
-                    setFileAttachment={setFileAttachment}
-                    linkUrl={linkUrl}
-                    setLinkUrl={setLinkUrl}
+                    onNext={handleNextStep}
+                  />
+                )}
+
+                {currentStep === 3 && (
+                  <FileUploadStep
+                    onPrevious={handlePreviousStep}
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    files={files}
+                    setFiles={setFiles}
+                    links={links}
+                    setLinks={setLinks}
                   />
                 )}
               </form>
