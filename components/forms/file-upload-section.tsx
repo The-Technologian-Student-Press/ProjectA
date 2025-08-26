@@ -1,11 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Upload, Link as LinkIcon, FileText } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from "@/components/ui/dropzone";
+import { FileText, X, ExternalLink } from "lucide-react";
 
 interface FileUploadSectionProps {
   fileAttachment: File | undefined;
@@ -20,115 +25,120 @@ export function FileUploadSection({
   linkUrl,
   setLinkUrl,
 }: FileUploadSectionProps) {
-  const [uploadMethod, setUploadMethod] = useState<"file" | "link" | "both">(
-    "file"
-  );
-  const form = useFormContext();
-
-  // Set initial upload method based on development mode
-  React.useEffect(() => {
-    if (process.env.NODE_ENV === "development" && linkUrl) {
-      setUploadMethod("both");
+  const handleDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 0) {
+      setFileAttachment(acceptedFiles[0]);
     }
-  }, [linkUrl]);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && file.type === "application/pdf") {
-      setFileAttachment(file);
-      form.setValue("fileAttachment", file);
-    }
-  };
-
-  const handleLinkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const url = event.target.value;
-    setLinkUrl(url);
-    form.setValue("linkUrl", url);
   };
 
   const removeFile = () => {
     setFileAttachment(undefined);
-    form.setValue("fileAttachment", undefined);
+  };
+
+  const removeLink = () => {
+    setLinkUrl("");
   };
 
   return (
-    <div className="space-y-3">
-      <Label>File Attachment or Link</Label>
-
-      <div className="flex space-x-2">
-        <Button
-          type="button"
-          variant={uploadMethod === "file" ? "default" : "outline"}
-          onClick={() => setUploadMethod("file")}
-          className="flex items-center space-x-2"
+    <div className="space-y-6">
+      {/* File Upload Section */}
+      <div className="space-y-4">
+        <Label className="text-base font-medium">
+          File Attachment (Optional)
+        </Label>
+        <Dropzone
+          accept={{
+            "application/pdf": [".pdf"],
+            "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
+            "text/*": [".txt", ".md", ".doc", ".docx"],
+          }}
+          maxFiles={1}
+          maxSize={1024 * 1024 * 10} // 10MB
+          minSize={1024} // 1KB
+          onDrop={handleDrop}
+          onError={(error) => console.error("Dropzone error:", error)}
         >
-          <Upload className="h-4 w-4" />
-          <span>File</span>
-        </Button>
-        <Button
-          type="button"
-          variant={uploadMethod === "link" ? "default" : "outline"}
-          onClick={() => setUploadMethod("link")}
-          className="flex items-center space-x-2"
-        >
-          <LinkIcon className="h-4 w-4" />
-          <span>Link</span>
-        </Button>
-        <Button
-          type="button"
-          variant={uploadMethod === "both" ? "default" : "outline"}
-          onClick={() => setUploadMethod("both")}
-          className="flex items-center space-x-2"
-        >
-          <FileText className="h-4 w-4" />
-          <span>Both</span>
-        </Button>
+          <DropzoneEmptyState />
+          <DropzoneContent>
+            {fileAttachment && (
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Uploaded File:</Label>
+                <Card className="p-3">
+                  <CardContent className="p-0">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <FileText className="h-4 w-4 text-primary" />
+                        <span className="text-sm font-medium">
+                          {fileAttachment.name}
+                        </span>
+                        <Badge variant="secondary" className="text-xs">
+                          {(fileAttachment.size / (1024 * 1024)).toFixed(2)}MB
+                        </Badge>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removeFile}
+                        className="text-destructive hover:text-destructive/80 h-6 w-6 p-0 flex items-center justify-center"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+          </DropzoneContent>
+        </Dropzone>
       </div>
 
-      {(uploadMethod === "file" || uploadMethod === "both") && (
-        <div className="space-y-2">
-          <Input
-            type="file"
-            accept=".pdf"
-            onChange={handleFileChange}
-            className="cursor-pointer"
-          />
-          {fileAttachment && (
-            <div className="flex items-center space-x-2 p-2 bg-primary/10 border border-primary/20 rounded">
-              <FileText className="h-4 w-4 text-primary" />
-              <span className="text-sm text-foreground">
-                {fileAttachment.name}
-              </span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={removeFile}
-                className="text-destructive hover:text-destructive/80"
-              >
-                Remove
-              </Button>
-            </div>
-          )}
-          <p className="text-xs text-muted-foreground">
-            Only PDF files are accepted
-          </p>
-        </div>
-      )}
-
-      {(uploadMethod === "link" || uploadMethod === "both") && (
+      {/* Link Section */}
+      <div className="space-y-4">
+        <Label className="text-base font-medium">
+          External Link (Optional)
+        </Label>
         <div className="space-y-2">
           <Input
             type="url"
             placeholder="https://example.com/document.pdf"
             value={linkUrl}
-            onChange={handleLinkChange}
+            onChange={(e) => setLinkUrl(e.target.value)}
           />
-          <p className="text-xs text-muted-foreground">
-            Provide a direct link to your document
-          </p>
+          {linkUrl && (
+            <Card className="p-3">
+              <CardContent className="p-0">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <ExternalLink className="h-4 w-4 text-primary" />
+                    <a
+                      href={linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-primary hover:underline truncate max-w-xs"
+                    >
+                      {linkUrl}
+                    </a>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={removeLink}
+                    className="text-destructive hover:text-destructive/80 h-6 w-6 p-0 flex items-center justify-center"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
-      )}
+      </div>
+
+      {/* Info Alert */}
+      <div className="bg-muted/50 p-4 rounded-lg">
+        <p className="text-sm text-muted-foreground">
+          You can optionally upload a file (PDF, images, text documents) or add
+          an external link to provide additional context for your request.
+        </p>
+      </div>
     </div>
   );
 }

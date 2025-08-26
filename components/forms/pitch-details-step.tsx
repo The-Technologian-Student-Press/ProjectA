@@ -4,7 +4,6 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -12,24 +11,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RichTextEditorField } from "./rich-text-editor-field";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
-import { FileUploadSection } from "./file-upload-section";
 
 interface PitchDetailsStepProps {
   onPrevious: () => void;
-  fileAttachment: File | undefined;
-  setFileAttachment: (file: File | undefined) => void;
-  linkUrl: string;
-  setLinkUrl: (url: string) => void;
+  onNext: () => void;
 }
 
 const pitchTypes = [
@@ -43,12 +36,52 @@ const pitchTypes = [
 
 export function PitchDetailsStep({
   onPrevious,
-  fileAttachment,
-  setFileAttachment,
-  linkUrl,
-  setLinkUrl,
+  onNext,
 }: PitchDetailsStepProps) {
   const form = useFormContext();
+
+  const handleNext = () => {
+    // Validate pitch details step
+    const pitchDetailsData = {
+      typeOfPitch: form.getValues("typeOfPitch"),
+      aboutPitch: form.getValues("aboutPitch"),
+      penName: form.getValues("penName"),
+    };
+
+    // Check if required fields are filled
+    if (
+      pitchDetailsData.typeOfPitch &&
+      pitchDetailsData.aboutPitch &&
+      pitchDetailsData.aboutPitch.length >= 10 &&
+      pitchDetailsData.penName
+    ) {
+      onNext();
+    } else {
+      // Trigger validation errors
+      if (!pitchDetailsData.typeOfPitch) {
+        form.setError("typeOfPitch", {
+          type: "manual",
+          message: "Type of pitch is required",
+        });
+      }
+      if (
+        !pitchDetailsData.aboutPitch ||
+        pitchDetailsData.aboutPitch.length < 10
+      ) {
+        form.setError("aboutPitch", {
+          type: "manual",
+          message:
+            "About the pitch is required and must be at least 10 characters",
+        });
+      }
+      if (!pitchDetailsData.penName) {
+        form.setError("penName", {
+          type: "manual",
+          message: "Pen name is required",
+        });
+      }
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -77,23 +110,13 @@ export function PitchDetailsStep({
         )}
       />
 
-      <FormField
-        control={form.control}
+      <RichTextEditorField
         name="aboutPitch"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>About the Pitch *</FormLabel>
-            <FormControl>
-              <Textarea
-                placeholder="Please provide detailed information about your pitch..."
-                rows={6}
-                {...field}
-              />
-            </FormControl>
-            <FormDescription>Minimum 10 characters required</FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
+        label="About the Pitch"
+        description="Minimum 10 characters required"
+        placeholder="Please provide detailed information about your pitch..."
+        required={true}
+        minLength={10}
       />
 
       <FormField
@@ -110,21 +133,6 @@ export function PitchDetailsStep({
         )}
       />
 
-      <FileUploadSection
-        fileAttachment={fileAttachment}
-        setFileAttachment={setFileAttachment}
-        linkUrl={linkUrl}
-        setLinkUrl={setLinkUrl}
-      />
-
-      <Alert>
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>
-          Please provide either a file attachment, a link, or both. All other
-          fields marked with * are required.
-        </AlertDescription>
-      </Alert>
-
       <div className="flex justify-between">
         <Button
           type="button"
@@ -134,8 +142,8 @@ export function PitchDetailsStep({
         >
           Previous
         </Button>
-        <Button type="submit" className="px-8 py-2">
-          Submit Pitch
+        <Button type="button" onClick={handleNext} className="px-8 py-2">
+          Next
         </Button>
       </div>
     </div>

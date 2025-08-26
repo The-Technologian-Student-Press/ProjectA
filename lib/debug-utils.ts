@@ -20,9 +20,8 @@ export const getDevelopmentDefaults = {
   pitchDetails: {
     typeOfPitch: "Feature",
     aboutPitch:
-      "This is a sample pitch about technology trends in 2024. I want to write about how artificial intelligence is transforming various industries and what this means for the future of work.",
+      "This is a sample pitch about technology trends in 2024. I want to write about how artificial intelligence is transforming various industries and what this means for the future of work. The article will explore:\n\n• Current AI applications in healthcare, finance, and education\n• Ethical considerations and potential risks\n• Future job market implications\n• Recommendations for students preparing for an AI-driven world",
     penName: "TechWriter",
-    linkUrl: "https://example.com/sample-document.pdf",
   },
   requesterInfo: {
     fullName: "Jane Smith",
@@ -41,7 +40,7 @@ export const getDevelopmentDefaults = {
       "We are organizing a technology symposium next week and would like to request media coverage for the event. The symposium will feature guest speakers from the tech industry and student presentations on innovative projects.",
     linkUrl: "https://example.com/event-details.pdf",
   },
-  empty: {
+  pitchEmpty: {
     fullName: "",
     courseAndYear: "",
     citId: "",
@@ -50,7 +49,6 @@ export const getDevelopmentDefaults = {
     typeOfPitch: "",
     aboutPitch: "",
     penName: "",
-    linkUrl: "",
   },
   requestAssistanceEmpty: {
     fullName: "",
@@ -78,7 +76,7 @@ export const getDefaultFormValues = () => {
       ...getDevelopmentDefaults.pitchDetails,
     };
   }
-  return getDevelopmentDefaults.empty;
+  return getDevelopmentDefaults.pitchEmpty;
 };
 
 /**

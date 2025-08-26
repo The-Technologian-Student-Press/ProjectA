@@ -1,0 +1,150 @@
+.EditorTheme__code {
+  background-color: hsl(var(--muted));
+  font-family: Menlo, Consolas, Monaco, monospace;
+  display: block;
+  padding: 8px 8px 8px 52px;
+  line-height: 1.53;
+  font-size: 13px;
+  margin: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+  border: 1px solid hsl(var(--border));
+  position: relative;
+  border-radius: 8px;
+  tab-size: 2;
+  color: hsl(var(--foreground));
+}
+.EditorTheme__code:before {
+  content: attr(data-gutter);
+  position: absolute;
+  background-color: hsl(var(--muted));
+  border-right: 1px solid hsl(var(--border));
+  left: 0;
+  top: 0;
+  padding: 8px;
+  color: hsl(var(--muted-foreground));
+  white-space: pre-wrap;
+  text-align: right;
+  min-width: 25px;
+}
+.EditorTheme__table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  table-layout: fixed;
+  width: fit-content;
+  width: 100%;
+  margin: 0px 25px 30px 0px;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--background));
+}
+.EditorTheme__tokenComment {
+  color: hsl(var(--muted-foreground));
+}
+.EditorTheme__tokenPunctuation {
+  color: hsl(var(--muted-foreground));
+}
+.EditorTheme__tokenProperty {
+  color: hsl(var(--primary));
+}
+.EditorTheme__tokenSelector {
+  color: hsl(var(--primary));
+}
+.EditorTheme__tokenOperator {
+  color: hsl(var(--foreground));
+}
+.EditorTheme__tokenAttr {
+  color: hsl(var(--primary));
+}
+.EditorTheme__tokenVariable {
+  color: hsl(var(--accent));
+}
+.EditorTheme__tokenFunction {
+  color: hsl(var(--primary));
+}
+
+.Collapsible__container {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.Collapsible__title {
+  padding: 0.25rem;
+  padding-left: 1rem;
+  position: relative;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  list-style-type: disclosure-closed;
+  list-style-position: inside;
+  color: hsl(var(--foreground));
+}
+
+.Collapsible__title p {
+  display: inline-flex;
+}
+.Collapsible__title::marker {
+  color: hsl(var(--muted-foreground));
+}
+.Collapsible__container[open] > .Collapsible__title {
+  list-style-type: disclosure-open;
+}
+
+/* Editor toolbar responsive styles */
+.editor-toolbar {
+  @apply flex flex-wrap items-center gap-1 p-2 border-b bg-background;
+  min-height: 48px;
+}
+
+.editor-toolbar-group {
+  @apply flex items-center gap-1 px-2 py-1 rounded-md border border-border/50;
+  height: 32px;
+}
+
+.editor-toolbar-separator {
+  @apply w-px h-4 bg-border mx-1;
+  align-self: center;
+}
+
+.editor-toolbar-dropdown {
+  @apply hidden lg:flex;
+}
+
+.editor-toolbar-mobile {
+  @apply lg:hidden;
+}
+
+/* Mobile hamburger menu */
+.editor-toolbar-mobile-menu {
+  @apply absolute top-full left-0 right-0 bg-background border border-border rounded-b-md shadow-lg z-50 max-h-96 overflow-y-auto;
+}
+
+.editor-toolbar-mobile-group {
+  @apply p-2 border-b border-border/50 last:border-b-0;
+}
+
+.editor-toolbar-mobile-group-title {
+  @apply text-sm font-medium text-muted-foreground mb-2;
+}
+
+/* Responsive content area */
+.editor-content {
+  @apply min-h-[200px] max-h-[400px] lg:max-h-[600px] overflow-y-auto;
+}
+
+/* Dark mode adjustments */
+.dark .EditorTheme__code {
+  background-color: hsl(var(--muted));
+  border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.dark .EditorTheme__code:before {
+  background-color: hsl(var(--muted));
+  border-color: hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+}
