@@ -24,6 +24,23 @@ export const getDevelopmentDefaults = {
     penName: "TechWriter",
     linkUrl: "https://example.com/sample-document.pdf",
   },
+  requesterInfo: {
+    fullName: "Jane Smith",
+    courseAndYear: "BS Information Technology 4th Year",
+    idNumber: "2020-1234-567",
+    phoneNumber: "+63 998 765 4321",
+    personalEmail: "jane.smith@example.com",
+    organizationName: "College of Engineering Student Council",
+  },
+  requestDetails: {
+    typeOfRequest: "news-coverage",
+    requestDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+    requestTime: "02:00 PM",
+    location: "Main Campus Auditorium, Room 101",
+    requestDescription:
+      "We are organizing a technology symposium next week and would like to request media coverage for the event. The symposium will feature guest speakers from the tech industry and student presentations on innovative projects.",
+    linkUrl: "https://example.com/event-details.pdf",
+  },
   empty: {
     fullName: "",
     courseAndYear: "",
@@ -33,6 +50,20 @@ export const getDevelopmentDefaults = {
     typeOfPitch: "",
     aboutPitch: "",
     penName: "",
+    linkUrl: "",
+  },
+  requestAssistanceEmpty: {
+    fullName: "",
+    courseAndYear: "",
+    idNumber: "",
+    phoneNumber: "",
+    personalEmail: "",
+    organizationName: "",
+    typeOfRequest: "",
+    requestDate: undefined,
+    requestTime: "",
+    location: "",
+    requestDescription: "",
     linkUrl: "",
   },
 };
@@ -48,6 +79,19 @@ export const getDefaultFormValues = () => {
     };
   }
   return getDevelopmentDefaults.empty;
+};
+
+/**
+ * Get appropriate default values for request assistance form based on environment
+ */
+export const getDefaultRequestAssistanceValues = () => {
+  if (isDevelopment) {
+    return {
+      ...getDevelopmentDefaults.requesterInfo,
+      ...getDevelopmentDefaults.requestDetails,
+    };
+  }
+  return getDevelopmentDefaults.requestAssistanceEmpty;
 };
 
 /**
