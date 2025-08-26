@@ -96,44 +96,99 @@
 
 /* Editor toolbar responsive styles */
 .editor-toolbar {
-  @apply flex flex-wrap items-center gap-1 p-2 border-b bg-background;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid hsl(var(--border));
+  background-color: hsl(var(--muted) / 0.3);
   min-height: 48px;
 }
 
 .editor-toolbar-group {
-  @apply flex items-center gap-1 px-2 py-1 rounded-md border border-border/50;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid hsl(var(--border) / 0.5);
+  background-color: hsl(var(--background));
   height: 32px;
 }
 
 .editor-toolbar-separator {
-  @apply w-px h-4 bg-border mx-1;
+  width: 1px;
+  height: 1rem;
+  background-color: hsl(var(--border));
+  margin: 0 0.25rem;
   align-self: center;
 }
 
 .editor-toolbar-dropdown {
-  @apply hidden lg:flex;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .editor-toolbar-dropdown {
+    display: flex;
+  }
 }
 
 .editor-toolbar-mobile {
-  @apply lg:hidden;
+  display: flex;
+}
+
+@media (min-width: 1024px) {
+  .editor-toolbar-mobile {
+    display: none;
+  }
 }
 
 /* Mobile hamburger menu */
 .editor-toolbar-mobile-menu {
-  @apply absolute top-full left-0 right-0 bg-background border border-border rounded-b-md shadow-lg z-50 max-h-96 overflow-y-auto;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-top: none;
+  border-radius: 0 0 0.375rem 0.375rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  z-index: 50;
+  max-height: 24rem;
+  overflow-y: auto;
 }
 
 .editor-toolbar-mobile-group {
-  @apply p-2 border-b border-border/50 last:border-b-0;
+  padding: 0.5rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+}
+
+.editor-toolbar-mobile-group:last-child {
+  border-bottom: none;
 }
 
 .editor-toolbar-mobile-group-title {
-  @apply text-sm font-medium text-muted-foreground mb-2;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.5rem;
 }
 
 /* Responsive content area */
 .editor-content {
-  @apply min-h-[200px] max-h-[400px] lg:max-h-[600px] overflow-y-auto;
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: hsl(var(--background));
+}
+
+@media (min-width: 1024px) {
+  .editor-content {
+    max-height: 600px;
+  }
 }
 
 /* Dark mode adjustments */

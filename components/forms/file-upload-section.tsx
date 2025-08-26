@@ -10,7 +10,7 @@ import {
   DropzoneContent,
   DropzoneEmptyState,
 } from "@/components/ui/dropzone";
-import { FileText, X, ExternalLink } from "lucide-react";
+import { FileText, X, ExternalLink, Plus } from "lucide-react";
 
 interface FileUploadSectionProps {
   fileAttachment: File | undefined;
@@ -58,7 +58,17 @@ export function FileUploadSection({
           onDrop={handleDrop}
           onError={(error) => console.error("Dropzone error:", error)}
         >
-          <DropzoneEmptyState />
+          <DropzoneEmptyState>
+            <div className="flex flex-col items-center justify-center space-y-2 text-center">
+              <Plus className="h-8 w-8 text-muted-foreground" />
+              <div className="text-sm text-muted-foreground">
+                <span className="font-medium">Click to upload</span> or drag and drop
+              </div>
+              <p className="text-xs text-muted-foreground">
+                PDF, images, text documents (max 10MB)
+              </p>
+            </div>
+          </DropzoneEmptyState>
           <DropzoneContent>
             {fileAttachment && (
               <div className="space-y-2">

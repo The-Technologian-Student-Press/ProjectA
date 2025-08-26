@@ -4,7 +4,7 @@ import * as React from "react";
 import { useDropzone, type DropzoneOptions } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Upload, X } from "lucide-react";
+import { Upload, X, Plus } from "lucide-react";
 
 interface DropzoneProps extends DropzoneOptions {
   src?: File[];
@@ -43,7 +43,7 @@ const Dropzone = React.forwardRef<HTMLDivElement, DropzoneProps>(
           <input {...getInputProps()} />
           {children || (
             <div className="flex flex-col items-center justify-center space-y-2 text-center">
-              <Upload className="h-8 w-8 text-muted-foreground" />
+              <Plus className="h-8 w-8 text-muted-foreground" />
               <div className="text-sm text-muted-foreground">
                 <span className="font-medium">Click to upload</span> or drag and drop
               </div>

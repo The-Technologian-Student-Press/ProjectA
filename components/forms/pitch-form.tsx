@@ -13,7 +13,6 @@ import { trpc } from "@/trpc/client";
 import { Form } from "@/components/ui/form";
 import { PersonalInfoStep } from "./personal-info-step";
 import { PitchDetailsStep } from "./pitch-details-step";
-import { FileUploadStep } from "./file-upload-step";
 import { Button } from "@/components/ui/button";
 import {
   getDefaultFormValues,
@@ -68,8 +67,6 @@ export function PitchForm() {
           });
         });
       }
-    } else if (currentStep === 2) {
-      setCurrentStep(3);
     }
   };
 
@@ -174,17 +171,10 @@ export function PitchForm() {
                 currentStep >= 2 ? "text-primary" : "text-muted-foreground"
               }`}
             >
-              Pitch Details
-            </span>
-            <span
-              className={`text-sm font-medium ${
-                currentStep >= 3 ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              File Attachments
+              Pitch Details & Attachments
             </span>
           </div>
-          <Progress value={currentStep * 33.33} className="h-2" />
+          <Progress value={currentStep * 50} className="h-2" />
         </div>
 
         {/* Form */}
@@ -193,9 +183,7 @@ export function PitchForm() {
             <CardTitle className="text-2xl font-bold text-center">
               {currentStep === 1
                 ? "Personal Information"
-                : currentStep === 2
-                ? "Pitch Details"
-                : "File Attachments"}
+                : "Pitch Details & Attachments"}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -207,13 +195,6 @@ export function PitchForm() {
 
                 {currentStep === 2 && (
                   <PitchDetailsStep
-                    onPrevious={handlePreviousStep}
-                    onNext={handleNextStep}
-                  />
-                )}
-
-                {currentStep === 3 && (
-                  <FileUploadStep
                     onPrevious={handlePreviousStep}
                     onSubmit={form.handleSubmit(onSubmit)}
                     files={files}

@@ -23,6 +23,23 @@ interface PersonalInfoStepProps {
 export function PersonalInfoStep({ onNext }: PersonalInfoStepProps) {
   const form = useFormContext();
 
+  const handleNext = () => {
+    // Trigger validation for all fields in this step
+    form
+      .trigger([
+        "fullName",
+        "courseAndYear",
+        "citId",
+        "phoneNumber",
+        "personalEmail",
+      ])
+      .then((isValid) => {
+        if (isValid) {
+          onNext();
+        }
+      });
+  };
+
   return (
     <div className="space-y-4">
       <FormField
@@ -117,7 +134,7 @@ export function PersonalInfoStep({ onNext }: PersonalInfoStepProps) {
       </Alert>
 
       <div className="flex justify-end">
-        <Button type="button" onClick={onNext} className="px-8 py-2">
+        <Button type="button" onClick={handleNext} className="px-8 py-2">
           Next Step
         </Button>
       </div>

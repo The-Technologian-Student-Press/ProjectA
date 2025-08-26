@@ -47,11 +47,11 @@ export function Plugins() {
 
   return (
     <div className="relative">
-      {/* Desktop Toolbar */}
+      {/* Editor Toolbar */}
       <ToolbarPlugin>
         {({ blockType }) => (
           <div className="editor-toolbar">
-            {/* Block Format Group */}
+            {/* Desktop Toolbar Groups - Hidden on mobile */}
             <div className="editor-toolbar-group editor-toolbar-dropdown">
               <BlockFormatDropDown>
                 <FormatParagraph />
@@ -65,7 +65,6 @@ export function Plugins() {
 
             <div className="editor-toolbar-separator editor-toolbar-dropdown" />
 
-            {/* Text Format Group */}
             <div className="editor-toolbar-group editor-toolbar-dropdown">
               <FontFormatToolbarPlugin format="bold" />
               <FontFormatToolbarPlugin format="italic" />
@@ -75,21 +74,18 @@ export function Plugins() {
 
             <div className="editor-toolbar-separator editor-toolbar-dropdown" />
 
-            {/* Font Size Group */}
             <div className="editor-toolbar-group editor-toolbar-dropdown">
               <FontSizeToolbarPlugin />
             </div>
 
             <div className="editor-toolbar-separator editor-toolbar-dropdown" />
 
-            {/* Alignment Group */}
             <div className="editor-toolbar-group editor-toolbar-dropdown">
               <ElementFormatToolbarPlugin />
             </div>
 
             <div className="editor-toolbar-separator editor-toolbar-dropdown" />
 
-            {/* Special Format Group */}
             <div className="editor-toolbar-group editor-toolbar-dropdown">
               <SubSuperToolbarPlugin />
               <LinkToolbarPlugin />
@@ -97,19 +93,17 @@ export function Plugins() {
 
             <div className="editor-toolbar-separator editor-toolbar-dropdown" />
 
-            {/* History Group */}
             <div className="editor-toolbar-group editor-toolbar-dropdown">
               <HistoryToolbarPlugin />
             </div>
 
             <div className="editor-toolbar-separator editor-toolbar-dropdown" />
 
-            {/* Clear Format Group */}
             <div className="editor-toolbar-group editor-toolbar-dropdown">
               <ClearFormattingToolbarPlugin />
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Hidden on desktop */}
             <div className="editor-toolbar-mobile">
               <Collapsible
                 open={isMobileMenuOpen}
@@ -121,7 +115,6 @@ export function Plugins() {
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="editor-toolbar-mobile-menu">
-                  {/* Block Format Mobile */}
                   <div className="editor-toolbar-mobile-group">
                     <div className="editor-toolbar-mobile-group-title">
                       Block Format
@@ -138,7 +131,6 @@ export function Plugins() {
                     </div>
                   </div>
 
-                  {/* Text Format Mobile */}
                   <div className="editor-toolbar-mobile-group">
                     <div className="editor-toolbar-mobile-group-title">
                       Text Format
@@ -151,7 +143,6 @@ export function Plugins() {
                     </div>
                   </div>
 
-                  {/* Font Size Mobile */}
                   <div className="editor-toolbar-mobile-group">
                     <div className="editor-toolbar-mobile-group-title">
                       Font Size
@@ -161,7 +152,6 @@ export function Plugins() {
                     </div>
                   </div>
 
-                  {/* Alignment Mobile */}
                   <div className="editor-toolbar-mobile-group">
                     <div className="editor-toolbar-mobile-group-title">
                       Alignment
@@ -171,7 +161,6 @@ export function Plugins() {
                     </div>
                   </div>
 
-                  {/* Special Format Mobile */}
                   <div className="editor-toolbar-mobile-group">
                     <div className="editor-toolbar-mobile-group-title">
                       Special Format
@@ -182,7 +171,6 @@ export function Plugins() {
                     </div>
                   </div>
 
-                  {/* History Mobile */}
                   <div className="editor-toolbar-mobile-group">
                     <div className="editor-toolbar-mobile-group-title">
                       History
@@ -192,7 +180,6 @@ export function Plugins() {
                     </div>
                   </div>
 
-                  {/* Clear Format Mobile */}
                   <div className="editor-toolbar-mobile-group">
                     <div className="editor-toolbar-mobile-group-title">
                       Clear Format
@@ -209,14 +196,14 @@ export function Plugins() {
       </ToolbarPlugin>
 
       {/* Editor Content */}
-      <div className="relative">
+      <div className="relative bg-background">
         <RichTextPlugin
           contentEditable={
             <div className="editor-content">
               <div className="" ref={onRef}>
                 <ContentEditable
                   placeholder={"Start typing ..."}
-                  className="ContentEditable__root relative block min-h-full overflow-auto px-4 py-3 focus:outline-none"
+                  className="ContentEditable__root relative block min-h-full overflow-auto px-4 py-3 focus:outline-none bg-background"
                 />
               </div>
             </div>
