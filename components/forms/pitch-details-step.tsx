@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RichTextEditorField } from "./rich-text-editor-field";
+import { FileUploadSection } from "./file-upload-section";
 import {
   FormControl,
   FormField,
@@ -22,7 +23,11 @@ import {
 
 interface PitchDetailsStepProps {
   onPrevious: () => void;
-  onNext: () => void;
+  onSubmit: () => void;
+  files: File[];
+  setFiles: (files: File[]) => void;
+  links: string[];
+  setLinks: (links: string[]) => void;
 }
 
 const pitchTypes = [
@@ -36,11 +41,15 @@ const pitchTypes = [
 
 export function PitchDetailsStep({
   onPrevious,
-  onNext,
+  onSubmit,
+  files,
+  setFiles,
+  links,
+  setLinks,
 }: PitchDetailsStepProps) {
   const form = useFormContext();
 
-  const handleNext = () => {
+  const handleSubmit = () => {
     // Validate pitch details step
     const pitchDetailsData = {
       typeOfPitch: form.getValues("typeOfPitch"),
@@ -55,7 +64,7 @@ export function PitchDetailsStep({
       pitchDetailsData.aboutPitch.length >= 10 &&
       pitchDetailsData.penName
     ) {
-      onNext();
+      onSubmit();
     } else {
       // Trigger validation errors
       if (!pitchDetailsData.typeOfPitch) {
@@ -83,8 +92,20 @@ export function PitchDetailsStep({
     }
   };
 
+  // Convert files array to single file for FileUploadSection compatibility
+  const fileAttachment = files.length > 0 ? files[0] : undefined;
+  const setFileAttachment = (file: File | undefined) => {
+    setFiles(file ? [file] : []);
+  };
+
+  // Convert links array to single link for FileUploadSection compatibility
+  const linkUrl = links.length > 0 ? links[0] : "";
+  const setLinkUrl = (url: string) => {
+    setLinks(url ? [url] : []);
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <FormField
         control={form.control}
         name="typeOfPitch"
@@ -133,6 +154,13 @@ export function PitchDetailsStep({
         )}
       />
 
+      <FileUploadSection
+        fileAttachment={fileAttachment}
+        setFileAttachment={setFileAttachment}
+        linkUrl={linkUrl}
+        setLinkUrl={setLinkUrl}
+      />
+
       <div className="flex justify-between">
         <Button
           type="button"
@@ -142,8 +170,8 @@ export function PitchDetailsStep({
         >
           Previous
         </Button>
-        <Button type="button" onClick={handleNext} className="px-8 py-2">
-          Next
+        <Button type="button" onClick={handleSubmit} className="px-8 py-2">
+          Submit Pitch
         </Button>
       </div>
     </div>

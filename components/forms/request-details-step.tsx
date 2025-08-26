@@ -4,7 +4,6 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -32,6 +31,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { requestTypeOptions } from "@/trpc/schemas/request-assistance";
 import { FileUploadSection } from "./file-upload-section";
+import { RichTextEditorField } from "./rich-text-editor-field";
 
 interface RequestDetailsStepProps {
   onPrevious: () => void;
@@ -51,10 +51,33 @@ export function RequestDetailsStep({
   const form = useFormContext();
 
   const timeOptions = [
-    "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
-    "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
-    "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
-    "08:00 PM", "09:00 PM"
+    "08:00 AM",
+    "08:30 AM",
+    "09:00 AM",
+    "09:30 AM",
+    "10:00 AM",
+    "10:30 AM",
+    "11:00 AM",
+    "11:30 AM",
+    "12:00 PM",
+    "12:30 PM",
+    "01:00 PM",
+    "01:30 PM",
+    "02:00 PM",
+    "02:30 PM",
+    "03:00 PM",
+    "03:30 PM",
+    "04:00 PM",
+    "04:30 PM",
+    "05:00 PM",
+    "05:30 PM",
+    "06:00 PM",
+    "06:30 PM",
+    "07:00 PM",
+    "07:30 PM",
+    "08:00 PM",
+    "08:30 PM",
+    "09:00 PM",
   ];
 
   return (
@@ -173,25 +196,13 @@ export function RequestDetailsStep({
         )}
       />
 
-      <FormField
-        control={form.control}
+      <RichTextEditorField
         name="requestDescription"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Request Description *</FormLabel>
-            <FormControl>
-              <Textarea
-                placeholder="Please provide detailed information about your request, including the purpose, expected outcomes, and any specific requirements..."
-                className="min-h-[120px]"
-                {...field}
-              />
-            </FormControl>
-            <FormDescription>
-              Minimum 10 characters. Be as detailed as possible to help us better assist you.
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
+        label="Request Description"
+        description="Minimum 10 characters. Be as detailed as possible to help us better assist you."
+        placeholder="Please provide detailed information about your request, including the purpose, expected outcomes, and any specific requirements..."
+        required={true}
+        minLength={10}
       />
 
       <FileUploadSection
