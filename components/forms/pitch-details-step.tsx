@@ -105,7 +105,7 @@ export function PitchDetailsStep({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-0">
       <FormField
         control={form.control}
         name="typeOfPitch"
@@ -161,16 +161,16 @@ export function PitchDetailsStep({
         setLinkUrl={setLinkUrl}
       />
 
-      <div className="flex justify-between">
+      <div className="flex justify-between pt-6">
         <Button
           type="button"
           variant="outline"
           onClick={onPrevious}
-          className="px-8 py-2"
+          className="min-w-[120px]"
         >
           Previous
         </Button>
-        <Button type="button" onClick={handleSubmit} className="px-8 py-2">
+        <Button type="button" onClick={handleSubmit} className="min-w-[120px]">
           Submit Pitch
         </Button>
       </div>

@@ -113,7 +113,7 @@ export function RichTextEditorField({
   placeholder,
   required = false,
   minLength = 0,
-}: RichTextEditorFieldProps) {
+}: Readonly<RichTextEditorFieldProps>) {
   const form = useFormContext();
   const [editorState, setEditorState] = useState<SerializedEditorState>(
     plainTextToEditorState(form.getValues(name) || "")
@@ -141,18 +141,16 @@ export function RichTextEditorField({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="w-full">
           <FormLabel>
             {label}
             {required && <span className="text-destructive ml-1">*</span>}
           </FormLabel>
           <FormControl>
-            <div className="min-h-[200px]">
-              <Editor
-                editorSerializedState={editorState}
-                onSerializedChange={handleEditorChange}
-              />
-            </div>
+            <Editor
+              editorSerializedState={editorState}
+              onSerializedChange={handleEditorChange}
+            />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

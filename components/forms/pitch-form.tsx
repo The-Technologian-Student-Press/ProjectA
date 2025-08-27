@@ -135,50 +135,54 @@ export function PitchForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted p-4">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
             Submit Your Pitch
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Share your story ideas with the Technologian Student Press
           </p>
           {(() => {
             const indicator = getDevelopmentIndicator();
             if (!indicator) return null;
             return (
-              <div className={indicator.className}>
+              <div className={`${indicator.className} mt-6`}>
                 <p className={indicator.textClassName}>{indicator.message}</p>
               </div>
             );
           })()}
         </div>
 
-        {/* Progress Bar */}
+        {/* Progress Section */}
         <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span
-              className={`text-sm font-medium ${
-                currentStep >= 1 ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              Personal Information
-            </span>
-            <span
-              className={`text-sm font-medium ${
-                currentStep >= 2 ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              Pitch Details & Attachments
-            </span>
-          </div>
-          <Progress value={currentStep * 50} className="h-2" />
+          <Card className="w-full max-w-2xl mx-auto">
+            <CardContent className="pt-6">
+              <div className="flex justify-between items-center mb-4">
+                <span
+                  className={`text-sm font-medium ${
+                    currentStep >= 1 ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  Personal Information
+                </span>
+                <span
+                  className={`text-sm font-medium ${
+                    currentStep >= 2 ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  Pitch Details & Attachments
+                </span>
+              </div>
+              <Progress value={currentStep * 50} className="h-2" />
+            </CardContent>
+          </Card>
         </div>
 
         {/* Form */}
-        <Card className="w-full max-w-2xl mx-auto">
+        <Card className="w-full max-w-2xl mx-auto shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
               {currentStep === 1
@@ -186,9 +190,12 @@ export function PitchForm() {
                 : "Pitch Details & Attachments"}
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-8">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
                 {currentStep === 1 && (
                   <PersonalInfoStep onNext={handleNextStep} />
                 )}

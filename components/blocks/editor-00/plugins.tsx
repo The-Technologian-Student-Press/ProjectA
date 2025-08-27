@@ -5,7 +5,7 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
-import { Menu, ChevronDown } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { ContentEditable } from "@/components/editor/editor-ui/content-editable";
 import { ToolbarPlugin } from "@/components/editor/plugins/toolbar/toolbar-plugin";
@@ -35,18 +35,10 @@ import {
 } from "@/components/ui/collapsible";
 
 export function Plugins() {
-  const [floatingAnchorElem, setFloatingAnchorElem] =
-    useState<HTMLDivElement | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
-    }
-  };
-
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {/* Editor Toolbar */}
       <ToolbarPlugin>
         {({ blockType }) => (
@@ -103,8 +95,23 @@ export function Plugins() {
               <ClearFormattingToolbarPlugin />
             </div>
 
-            {/* Mobile Menu Button - Hidden on desktop */}
+            {/* Mobile Simplified Toolbar - Essential tools only */}
             <div className="editor-toolbar-mobile">
+              {/* Essential mobile tools */}
+              <div className="editor-toolbar-group">
+                <FontFormatToolbarPlugin format="bold" />
+                <FontFormatToolbarPlugin format="italic" />
+              </div>
+
+              <div className="editor-toolbar-separator" />
+
+              <div className="editor-toolbar-group">
+                <HistoryToolbarPlugin />
+              </div>
+
+              <div className="editor-toolbar-separator" />
+
+              {/* Collapsible menu for advanced tools */}
               <Collapsible
                 open={isMobileMenuOpen}
                 onOpenChange={setIsMobileMenuOpen}
@@ -196,14 +203,14 @@ export function Plugins() {
       </ToolbarPlugin>
 
       {/* Editor Content */}
-      <div className="relative bg-background">
+      <div className="relative bg-transparent w-full">
         <RichTextPlugin
           contentEditable={
             <div className="editor-content">
-              <div className="" ref={onRef}>
+              <div className="">
                 <ContentEditable
                   placeholder={"Start typing ..."}
-                  className="ContentEditable__root relative block min-h-full overflow-auto px-4 py-3 focus:outline-none bg-background"
+                  className="ContentEditable__root relative block min-h-full overflow-auto px-3 py-2 focus:outline-none bg-transparent box-border text-base md:text-sm selection:bg-primary selection:text-primary-foreground"
                 />
               </div>
             </div>

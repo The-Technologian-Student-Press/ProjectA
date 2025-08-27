@@ -81,7 +81,7 @@ export function RequestDetailsStep({
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-0">
       <FormField
         control={form.control}
         name="typeOfRequest"
@@ -212,11 +212,16 @@ export function RequestDetailsStep({
         setLinkUrl={setLinkUrl}
       />
 
-      <div className="flex justify-between">
-        <Button type="button" variant="outline" onClick={onPrevious}>
+      <div className="flex justify-between pt-6">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onPrevious}
+          className="min-w-[120px]"
+        >
           Previous Step
         </Button>
-        <Button type="submit" className="px-8 py-2">
+        <Button type="submit" className="min-w-[120px]">
           Submit Request
         </Button>
       </div>
