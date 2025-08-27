@@ -1,0 +1,107 @@
+/**
+ * Development mode utilities for easier debugging
+ */
+
+export const isDevelopment = process.env.NODE_ENV === "development";
+
+/**
+ * Get default form values based on environment
+ * In development: returns sample data for easier testing
+ * In production: returns empty values
+ */
+export const getDevelopmentDefaults = {
+  personalInfo: {
+    fullName: "John Doe",
+    courseAndYear: "BS Computer Science 3rd Year",
+    citId: "22-1437-172",
+    phoneNumber: "+63 912 345 6789",
+    personalEmail: "john.doe@example.com",
+  },
+  pitchDetails: {
+    typeOfPitch: "Feature",
+    aboutPitch:
+      "This is a sample pitch about technology trends in 2024. I want to write about how artificial intelligence is transforming various industries and what this means for the future of work. The article will explore:\n\n• Current AI applications in healthcare, finance, and education\n• Ethical considerations and potential risks\n• Future job market implications\n• Recommendations for students preparing for an AI-driven world",
+    penName: "TechWriter",
+  },
+  requesterInfo: {
+    fullName: "Jane Smith",
+    courseAndYear: "BS Information Technology 4th Year",
+    idNumber: "2020-1234-567",
+    phoneNumber: "+63 998 765 4321",
+    personalEmail: "jane.smith@example.com",
+    organizationName: "College of Engineering Student Council",
+  },
+  requestDetails: {
+    typeOfRequest: "news-coverage",
+    requestDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+    requestTime: "02:00 PM",
+    location: "Main Campus Auditorium, Room 101",
+    requestDescription:
+      "We are organizing a technology symposium next week and would like to request media coverage for the event. The symposium will feature guest speakers from the tech industry and student presentations on innovative projects.",
+    linkUrl: "https://example.com/event-details.pdf",
+  },
+  pitchEmpty: {
+    fullName: "",
+    courseAndYear: "",
+    citId: "",
+    phoneNumber: "",
+    personalEmail: "",
+    typeOfPitch: "",
+    aboutPitch: "",
+    penName: "",
+  },
+  requestAssistanceEmpty: {
+    fullName: "",
+    courseAndYear: "",
+    idNumber: "",
+    phoneNumber: "",
+    personalEmail: "",
+    organizationName: "",
+    typeOfRequest: "",
+    requestDate: undefined,
+    requestTime: "",
+    location: "",
+    requestDescription: "",
+    linkUrl: "",
+  },
+};
+
+/**
+ * Get appropriate default values based on environment
+ */
+export const getDefaultFormValues = () => {
+  if (isDevelopment) {
+    return {
+      ...getDevelopmentDefaults.personalInfo,
+      ...getDevelopmentDefaults.pitchDetails,
+    };
+  }
+  return getDevelopmentDefaults.pitchEmpty;
+};
+
+/**
+ * Get appropriate default values for request assistance form based on environment
+ */
+export const getDefaultRequestAssistanceValues = () => {
+  if (isDevelopment) {
+    return {
+      ...getDevelopmentDefaults.requesterInfo,
+      ...getDevelopmentDefaults.requestDetails,
+    };
+  }
+  return getDevelopmentDefaults.requestAssistanceEmpty;
+};
+
+/**
+ * Development mode indicator component props
+ */
+export const getDevelopmentIndicator = () => {
+  if (!isDevelopment) return null;
+
+  return {
+    message:
+      "🐛 Development Mode: Form pre-filled with sample data for testing",
+    className: "mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg",
+    textClassName: "text-sm text-yellow-800 font-medium",
+  };
+};
