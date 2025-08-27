@@ -29,13 +29,15 @@ export function Editor({
   onChange,
   onSerializedChange,
 }: {
-  editorState?: EditorState;
-  editorSerializedState?: SerializedEditorState;
-  onChange?: (editorState: EditorState) => void;
-  onSerializedChange?: (editorSerializedState: SerializedEditorState) => void;
+  readonly editorState?: EditorState;
+  readonly editorSerializedState?: SerializedEditorState;
+  readonly onChange?: (editorState: EditorState) => void;
+  readonly onSerializedChange?: (
+    editorSerializedState: SerializedEditorState
+  ) => void;
 }) {
   return (
-    <div className="w-full max-w-full overflow-hidden rounded-lg border border-border bg-background shadow-sm">
+    <div className="w-full rounded-md border border-input bg-transparent shadow-xs focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px] transition-[color,box-shadow] overflow-hidden">
       <LexicalComposer
         initialConfig={{
           ...editorConfig,
