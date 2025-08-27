@@ -12,14 +12,23 @@ import {
   FormDescription,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { LucideIcon, HelpCircle } from "lucide-react";
 
 interface RichTextEditorFieldProps {
-  name: string;
-  label: string;
-  description?: string;
-  placeholder?: string;
-  required?: boolean;
-  minLength?: number;
+  readonly name: string;
+  readonly label: string;
+  readonly icon?: LucideIcon;
+  readonly description?: string;
+  readonly helpText?: string;
+  readonly placeholder?: string;
+  readonly required?: boolean;
+  readonly minLength?: number;
 }
 
 // Convert rich text editor state to plain text
@@ -109,7 +118,9 @@ const plainTextToEditorState = (text: string): SerializedEditorState => {
 export function RichTextEditorField({
   name,
   label,
+  icon: Icon,
   description,
+  helpText,
   placeholder,
   required = false,
   minLength = 0,
@@ -141,10 +152,23 @@ export function RichTextEditorField({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="w-full">
-          <FormLabel>
+        <FormItem className="w-full space-y-1">
+          <FormLabel className="text-base font-semibold flex items-center gap-2">
+            {Icon && <Icon className="w-4 h-4 text-primary" />}
             {label}
             {required && <span className="text-destructive ml-1">*</span>}
+            {helpText && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-3.5 h-3.5 text-muted-foreground hover:text-primary cursor-help transition-colors" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs text-sm">{helpText}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </FormLabel>
           <FormControl>
             <Editor
@@ -152,7 +176,11 @@ export function RichTextEditorField({
               onSerializedChange={handleEditorChange}
             />
           </FormControl>
-          {description && <FormDescription>{description}</FormDescription>}
+          {description && (
+            <FormDescription className="text-sm text-muted-foreground">
+              {description}
+            </FormDescription>
+          )}
           <FormMessage />
         </FormItem>
       )}
