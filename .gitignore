@@ -5,3 +5,7 @@ tsconfig.tsbuildinfo
 
 # Serena project configuration
 .serena/project.yml
+.vscode
+
+
+
