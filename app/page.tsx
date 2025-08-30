@@ -1,11 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import CommunicationPortal from "@/components/landing/communication-portal";
+import FooterSection from "@/components/landing/footer-section";
 
-export default function Page() {
+export default function LandingPage() {
   return (
-    <h1>
-      <Button>Hello, Next.js!</Button>
-    </h1>
+    <div className="min-h-screen">
+      <CommunicationPortal />
+      <FooterSection />
+    </div>
   );
 }
