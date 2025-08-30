@@ -1,8 +1,9 @@
+'use client'
+
 import { MapPin, Mail } from "lucide-react"
 import Image from "next/image"
-import { socialLinks } from "@/lib/constants/social-links"
 import Link from "next/link"
-
+import { socialLinks } from "@/lib/constants/social-links"
 
 export default function FooterSection() {
   return (
@@ -12,7 +13,7 @@ export default function FooterSection() {
         {/* Main Footer Content */}
         <section className="text-center mb-8" aria-labelledby="footer-brand">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 backdrop-blur-sm rounded-2xl p-3 shadow-lg border border-white/20">
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl p-3 shadow-lg border border-white/20">
               <Image
                 src="/img/logo-white-emblem.webp"
                 alt="The Technologian - Official Student Publication Logo"
@@ -36,13 +37,13 @@ export default function FooterSection() {
             <div className="space-y-2 text-sm text-white/70">
               <div className="flex items-center justify-center md:justify-start space-x-2">
                 <Mail className="h-4 w-4" aria-hidden="true" />
-                <a
+                <Link
                   href="mailto:thetechnologianstudentpress@gmail.com"
                   className="hover:text-white transition-colors"
                   aria-label="Email The Technologian Student Press"
                 >
                   thetechnologianstudentpress@gmail.com
-                </a>
+                </Link>
               </div>
               <div className="flex items-center justify-center md:justify-start space-x-2">
                 <MapPin className="h-4 w-4" aria-hidden="true" />
@@ -82,6 +83,12 @@ export default function FooterSection() {
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 text-sm text-white/60">
             <p>&copy; {new Date().getFullYear()} The Technologian Student Press. All rights reserved.</p>
             <nav className="flex items-center space-x-4" aria-label="Legal information">
+              <Link href="/privacy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-white transition-colors">
+                Terms of Service
+              </Link>
               <Link href="/privacy" className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>

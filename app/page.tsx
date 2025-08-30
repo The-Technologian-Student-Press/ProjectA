@@ -2,9 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Sparkles, Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+
 import FooterSection from "@/components/landing/footer-section";
 import Head from 'next/head';
 import Script from 'next/script';
+
 import { structuredData } from '@/lib/constants/structured-data';
 
 export default function LandingPage() {
