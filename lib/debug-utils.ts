@@ -13,7 +13,7 @@ export const getDevelopmentDefaults = {
   personalInfo: {
     fullName: "John Doe",
     courseAndYear: "BS Computer Science 3rd Year",
-    citId: "22-1437-172",
+    citId: "00-0000-000",
     phoneNumber: "+63 912 345 6789",
     personalEmail: "john.doe@example.com",
   },
