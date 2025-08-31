@@ -7,27 +7,6 @@ export const requestAssistanceRouter = createTRPCRouter({
     .input(requestAssistanceFormSchema)
     .mutation(async (opts) => {
       const { input } = opts;
-      // Log the submission data
-      console.log("Request Assistance Submission:", {
-        requesterInfo: {
-          fullName: input.fullName,
-          courseAndYear: input.courseAndYear,
-          idNumber: input.idNumber,
-          phoneNumber: input.phoneNumber,
-          personalEmail: input.personalEmail,
-          organizationName: input.organizationName,
-        },
-        requestDetails: {
-          typeOfRequest: input.typeOfRequest,
-          requestDate: input.requestDate,
-          requestTime: input.requestTime,
-          location: input.location,
-          requestDescription: input.requestDescription,
-        },
-        attachments: {
-          hasLinkUrl: !!input.linkUrl,
-        },
-      });
 
       // Simulate processing time
       await new Promise((resolve) => setTimeout(resolve, 1000));

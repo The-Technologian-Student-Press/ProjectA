@@ -112,15 +112,6 @@ export function RequestAssistanceForm() {
       links,
     };
 
-    // Log file attachment info separately since File objects can't be serialized
-    if (fileAttachment) {
-      console.log("File attachment info:", {
-        name: fileAttachment.name,
-        size: fileAttachment.size,
-        type: fileAttachment.type,
-      });
-    }
-
     submitMutation.mutate(submitData);
   };
 

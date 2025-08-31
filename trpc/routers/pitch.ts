@@ -6,7 +6,10 @@ export const pitchRouter = createTRPCRouter({
     const { input } = opts;
 
     // Validate that at least one attachment method is provided
-    if ((!input.files || input.files.length === 0) && (!input.links || input.links.length === 0)) {
+    if (
+      (!input.files || input.files.length === 0) &&
+      (!input.links || input.links.length === 0)
+    ) {
       throw new Error("Please provide at least one file or link");
     }
 
@@ -14,20 +17,22 @@ export const pitchRouter = createTRPCRouter({
     if (input.files && input.files.length > 0) {
       for (const file of input.files) {
         const allowedTypes = [
-          'application/pdf',
-          'image/png',
-          'image/jpeg',
-          'image/jpg',
-          'image/gif',
-          'image/webp',
-          'text/plain',
-          'text/markdown',
-          'application/msword',
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          "application/pdf",
+          "image/png",
+          "image/jpeg",
+          "image/jpg",
+          "image/gif",
+          "image/webp",
+          "text/plain",
+          "text/markdown",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         ];
-        
+
         if (!allowedTypes.includes(file.type)) {
-          throw new Error(`File type ${file.type} is not allowed. Please upload PDF, images, or text documents only.`);
+          throw new Error(
+            `File type ${file.type} is not allowed. Please upload PDF, images, or text documents only.`
+          );
         }
       }
     }
@@ -39,22 +44,6 @@ export const pitchRouter = createTRPCRouter({
 
     // Simulate processing delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Log the submission (in a real app, this would be saved to a database)
-    console.log("Pitch submission received:", {
-      submissionId,
-      fullName: input.fullName,
-      courseAndYear: input.courseAndYear,
-      citId: input.citId,
-      phoneNumber: input.phoneNumber,
-      personalEmail: input.personalEmail,
-      typeOfPitch: input.typeOfPitch,
-      aboutPitch: input.aboutPitch,
-      penName: input.penName,
-      files: input.files?.map(f => ({ name: f.name, size: f.size, type: f.type })) || [],
-      links: input.links || [],
-      timestamp: new Date().toISOString(),
-    });
 
     return {
       success: true,
