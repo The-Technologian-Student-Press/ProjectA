@@ -2,3 +2,6 @@ node_modules
 .next
 .env
 tsconfig.tsbuildinfo
+
+# Serena project configuration
+.serena/project.yml
