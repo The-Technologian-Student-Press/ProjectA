@@ -1,9 +1,9 @@
-'use client'
 
 import { MapPin, Mail } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { socialLinks } from "@/lib/constants/social-links"
+
 
 export default function FooterSection() {
   return (
@@ -13,7 +13,7 @@ export default function FooterSection() {
         {/* Main Footer Content */}
         <section className="text-center mb-8" aria-labelledby="footer-brand">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl p-3 shadow-lg border border-white/20">
+            <div className="w-16 h-16 backdrop-blur-sm rounded-2xl p-3 shadow-lg border border-white/20">
               <Image
                 src="/img/logo-white-emblem.webp"
                 alt="The Technologian - Official Student Publication Logo"
@@ -89,16 +89,10 @@ export default function FooterSection() {
               <Link href="/terms" className="hover:text-white transition-colors">
                 Terms of Service
               </Link>
-              <Link href="/privacy" className="hover:text-white transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="hover:text-white transition-colors">
-                Terms of Service
-              </Link>
-            </nav>
-          </div>
-        </section>
-      </div>
-    </footer>
+            </nav >
+          </div >
+        </section >
+      </div >
+    </footer >
   )
 }
