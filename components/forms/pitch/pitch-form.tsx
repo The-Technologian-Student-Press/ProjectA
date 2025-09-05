@@ -112,7 +112,7 @@ export function PitchForm() {
   };
 
   const handleBackToPortal = () => {
-    router.push("/portal");
+    router.push("/");
   };
 
   if (isSubmitted) {
@@ -325,7 +325,7 @@ export function PitchForm() {
 
         {/* Back to Portal Link */}
         <div className="text-center mt-8">
-          <Link href="/portal">
+          <Link href="/">
             <Button
               variant="ghost"
               className="text-muted-foreground hover:text-foreground"
