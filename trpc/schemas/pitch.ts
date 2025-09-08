@@ -22,12 +22,22 @@ export const pitchDetailsSchema = z.object({
 
 // File upload schema
 export const fileUploadSchema = z.object({
-  files: z.array(z.instanceof(File)).optional(),
+  files: z
+    .array(
+      z.object({
+        name: z.string(),
+        type: z.string(),
+        size: z.number(),
+      })
+    )
+    .optional(),
   links: z.array(z.string().url()).optional(),
 });
 
 // Combined pitch form schema
-export const pitchFormSchema = personalInfoSchema.merge(pitchDetailsSchema).merge(fileUploadSchema);
+export const pitchFormSchema = personalInfoSchema
+  .merge(pitchDetailsSchema)
+  .merge(fileUploadSchema);
 
 // CIT ID validation schema
 export const citIdValidationSchema = z.object({
