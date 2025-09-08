@@ -1,11 +1,12 @@
 import { initTRPC } from "@trpc/server";
 import { cache } from "react";
 import superjson from "superjson";
-export const createTRPCContext = cache(async () => {
+export const createTRPCContext = cache(async ({ req }) => {
   /**
    * @see: https://trpc.io/docs/server/context
+   * TODO: Implement proper authentication and extract userId from request.
    */
-  return { userId: "user_123" };
+  return { userId: req?.user?.id };
 });
 // Avoid exporting the entire t-object
 // since it's not very descriptive.
