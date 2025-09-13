@@ -122,7 +122,7 @@ export function RequestAssistanceForm() {
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-muted flex items-center justify-center p-4">
-        <Card className="w-full max-w-2xl shadow-2xl border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm">
+        <Card className="w-full max-w-2xl shadow-2xl border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm py-0 rounded-lg pb-8">
           <CardHeader className="text-center relative overflow-visible pb-8">
             {/* Celebration background effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 opacity-50" />
