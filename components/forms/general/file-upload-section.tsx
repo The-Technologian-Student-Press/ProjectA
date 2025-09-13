@@ -25,6 +25,7 @@ import {
   Link,
   HelpCircle,
 } from "lucide-react";
+import { toast } from "sonner";
 
 interface FileUploadSectionProps {
   readonly fileAttachment: File | undefined;
@@ -42,7 +43,30 @@ export function FileUploadSection({
   const [currentLinkInput, setCurrentLinkInput] = React.useState("");
   const handleDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      setFileAttachment(acceptedFiles[0]);
+      const file = acceptedFiles[0];
+
+      // Validate file type
+      const allowedTypes = [
+        "application/pdf",
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/gif",
+        "image/webp",
+        "text/plain",
+        "text/markdown",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(
+          `File type ${file.type} is not allowed. Please upload PDF, images, or text documents only.`
+        );
+        return;
+      }
+
+      setFileAttachment(file);
     }
   };
 
@@ -136,7 +160,10 @@ export function FileUploadSection({
                       </div>
                       <button
                         type="button"
-                        onClick={removeFile}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeFile();
+                        }}
                         className="text-destructive hover:text-destructive/80 h-6 w-6 p-0 flex items-center justify-center"
                         aria-label={`Remove file ${fileAttachment.name}`}
                       >
@@ -219,7 +246,10 @@ export function FileUploadSection({
                       </div>
                       <button
                         type="button"
-                        onClick={() => removeLink(link)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeLink(link);
+                        }}
                         className="text-destructive hover:text-destructive/80 h-6 w-6 p-0 flex items-center justify-center flex-shrink-0 ml-2"
                         aria-label={`Remove link ${link}`}
                       >

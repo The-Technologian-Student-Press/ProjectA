@@ -88,8 +88,6 @@ export function PitchDetailsStep({
     setFiles(file ? [file] : []);
   };
 
-  // Links are now handled directly as array
-
   return (
     <div className="space-y-8">
       {/* Pitch Details Section */}

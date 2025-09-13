@@ -1,5 +1,7 @@
 import { baseProcedure, createTRPCRouter } from "../init";
 import { pitchFormSchema, citIdValidationSchema } from "../schemas/pitch";
+import { googleSheetsService } from "../../services/google-sheets";
+import type { PitchSubmissionData } from "../../types";
 
 export const pitchRouter = createTRPCRouter({
   submit: baseProcedure.input(pitchFormSchema).mutation(async (opts) => {
@@ -13,34 +15,38 @@ export const pitchRouter = createTRPCRouter({
       throw new Error("Please provide at least one file or link");
     }
 
-    // Validate file types if provided
-    if (input.files && input.files.length > 0) {
-      for (const file of input.files) {
-        const allowedTypes = [
-          "application/pdf",
-          "image/png",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-          "image/webp",
-          "text/plain",
-          "text/markdown",
-          "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ];
+    // File validation is handled on the frontend
 
-        if (!allowedTypes.includes(file.type)) {
-          throw new Error(
-            `File type ${file.type} is not allowed. Please upload PDF, images, or text documents only.`
-          );
-        }
-      }
-    }
-
-    // Generate a dummy submission ID
+    // Generate a submission ID
     const submissionId = `PITCH-${Date.now()}-${Math.random()
       .toString(36)
       .substring(2, 9)}`;
+
+    // Prepare data for Google Sheets
+    const pitchData: PitchSubmissionData = {
+      fullName: input.fullName,
+      courseAndYear: input.courseAndYear,
+      citId: input.citId,
+      phoneNumber: input.phoneNumber,
+      personalEmail: input.personalEmail,
+      typeOfPitch: input.typeOfPitch,
+      aboutPitch: input.aboutPitch,
+      penName: input.penName,
+      files: input.files?.map((file) => file.name) || [],
+      links: input.links || [],
+      submissionId,
+      submittedAt: new Date().toISOString(),
+    };
+
+    // Submit to Google Sheets
+    const sheetsResult = await googleSheetsService.submitPitch(pitchData);
+
+    if (!sheetsResult.success) {
+      console.error("Google Sheets submission failed:", sheetsResult.error);
+      throw new Error(
+        `Failed to save submission to database: ${sheetsResult.error}`
+      );
+    }
 
     // Simulate processing delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -49,6 +55,7 @@ export const pitchRouter = createTRPCRouter({
       success: true,
       message: "Pitch submitted successfully",
       submissionId,
+      sheetsRowId: sheetsResult.rowId,
     };
   }),
 
