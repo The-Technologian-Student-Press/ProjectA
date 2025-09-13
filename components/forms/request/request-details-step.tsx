@@ -41,6 +41,8 @@ interface RequestDetailsStepProps {
   readonly onPrevious: () => void;
   readonly fileAttachment: File | undefined;
   readonly setFileAttachment: (file: File | undefined) => void;
+  readonly files?: File[];
+  readonly setFiles?: (files: File[]) => void;
   readonly links: string[];
   readonly setLinks: (links: string[]) => void;
   readonly isSubmitting?: boolean;
@@ -50,6 +52,8 @@ export function RequestDetailsStep({
   onPrevious,
   fileAttachment,
   setFileAttachment,
+  files = [],
+  setFiles,
   links,
   setLinks,
   isSubmitting = false,
@@ -190,6 +194,8 @@ export function RequestDetailsStep({
       <FileUploadSection
         fileAttachment={fileAttachment}
         setFileAttachment={setFileAttachment}
+        files={files}
+        setFiles={setFiles}
         links={links}
         setLinks={setLinks}
       />

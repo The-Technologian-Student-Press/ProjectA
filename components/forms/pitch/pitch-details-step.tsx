@@ -82,7 +82,7 @@ export function PitchDetailsStep({
     }
   };
 
-  // Convert files array to single file for FileUploadSection compatibility
+  // Keep single file for backward compatibility (optional)
   const fileAttachment = files.length > 0 ? files[0] : undefined;
   const setFileAttachment = (file: File | undefined) => {
     setFiles(file ? [file] : []);
@@ -128,6 +128,8 @@ export function PitchDetailsStep({
       <FileUploadSection
         fileAttachment={fileAttachment}
         setFileAttachment={setFileAttachment}
+        files={files}
+        setFiles={setFiles}
         links={links}
         setLinks={setLinks}
       />
