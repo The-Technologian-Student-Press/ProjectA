@@ -7,5 +7,8 @@ tsconfig.tsbuildinfo
 .serena/project.yml
 .vscode
 
+# Personal cursor directive (not shared with team)
+.cursorrules
+
 
 
