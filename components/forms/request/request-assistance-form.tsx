@@ -40,6 +40,7 @@ export function RequestAssistanceForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionId, setSubmissionId] = useState<string>("");
   const [fileAttachment, setFileAttachment] = useState<File | undefined>();
+  const [files, setFiles] = useState<File[]>([]);
   const [links, setLinks] = useState<string[]>([]);
 
   const form = useForm<RequestAssistanceFormData>({
@@ -114,11 +115,11 @@ export function RequestAssistanceForm() {
 
   const onSubmit = (data: RequestAssistanceFormData) => {
     // Remove files from form data to avoid validation issues
-    const { files, ...formData } = data;
+    const { files: formFiles, ...formData } = data;
 
     const submitData = {
       ...formData,
-      files: fileAttachment ? [fileAttachment] : [],
+      files: files.length > 0 ? files : fileAttachment ? [fileAttachment] : [],
       links,
     };
 
@@ -313,6 +314,8 @@ export function RequestAssistanceForm() {
                     onPrevious={handlePreviousStep}
                     fileAttachment={fileAttachment}
                     setFileAttachment={setFileAttachment}
+                    files={files}
+                    setFiles={setFiles}
                     links={links}
                     setLinks={setLinks}
                     isSubmitting={submitMutation.isPending}

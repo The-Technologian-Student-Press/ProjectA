@@ -30,6 +30,8 @@ import { toast } from "sonner";
 interface FileUploadSectionProps {
   readonly fileAttachment: File | undefined;
   readonly setFileAttachment: (file: File | undefined) => void;
+  readonly files?: File[];
+  readonly setFiles?: (files: File[]) => void;
   readonly links: string[];
   readonly setLinks: (links: string[]) => void;
 }
@@ -37,15 +39,14 @@ interface FileUploadSectionProps {
 export function FileUploadSection({
   fileAttachment,
   setFileAttachment,
+  files = [],
+  setFiles,
   links,
   setLinks,
 }: FileUploadSectionProps) {
   const [currentLinkInput, setCurrentLinkInput] = React.useState("");
   const handleDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      const file = acceptedFiles[0];
-
-      // Validate file type
       const allowedTypes = [
         "application/pdf",
         "image/png",
@@ -59,19 +60,38 @@ export function FileUploadSection({
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ];
 
-      if (!allowedTypes.includes(file.type)) {
-        toast.error(
-          `File type ${file.type} is not allowed. Please upload PDF, images, or text documents only.`
-        );
-        return;
+      // Validate all files
+      const validFiles: File[] = [];
+      for (const file of acceptedFiles) {
+        if (!allowedTypes.includes(file.type)) {
+          toast.error(
+            `File "${file.name}" type ${file.type} is not allowed. Please upload PDF, images, or text documents only.`
+          );
+          continue;
+        }
+        validFiles.push(file);
       }
 
-      setFileAttachment(file);
+      if (validFiles.length > 0) {
+        if (setFiles) {
+          // Multiple files mode
+          setFiles([...files, ...validFiles]);
+        } else {
+          // Single file mode (backward compatibility)
+          setFileAttachment(validFiles[0]);
+        }
+      }
     }
   };
 
   const removeFile = () => {
     setFileAttachment(undefined);
+  };
+
+  const removeFileFromList = (fileToRemove: File) => {
+    if (setFiles) {
+      setFiles(files.filter((file) => file !== fileToRemove));
+    }
   };
 
   const addLink = () => {
@@ -143,7 +163,47 @@ export function FileUploadSection({
             </div>
           </DropzoneEmptyState>
           <DropzoneContent>
-            {fileAttachment && (
+            {/* Multiple files display */}
+            {setFiles && files.length > 0 && (
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">
+                  Uploaded Files ({files.length}):
+                </Label>
+                <div className="space-y-2">
+                  {files.map((file, index) => (
+                    <Card key={`${file.name}-${index}`} className="p-3">
+                      <CardContent className="p-0">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <FileText className="h-4 w-4 text-primary" />
+                            <span className="text-sm font-medium">
+                              {file.name}
+                            </span>
+                            <Badge variant="secondary" className="text-xs">
+                              {(file.size / (1024 * 1024)).toFixed(2)}MB
+                            </Badge>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeFileFromList(file);
+                            }}
+                            className="text-destructive hover:text-destructive/80 h-6 w-6 p-0 flex items-center justify-center"
+                            aria-label={`Remove file ${file.name}`}
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Single file display (backward compatibility) */}
+            {!setFiles && fileAttachment && (
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Uploaded File:</Label>
                 <Card className="p-3">
