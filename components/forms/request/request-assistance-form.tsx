@@ -63,9 +63,9 @@ export function RequestAssistanceForm() {
       const result = requesterInfoSchema.safeParse(requesterInfoData);
       if (result.success) {
         setCurrentStep(2);
-        toast.success("Requester information completed", {
-          description: "Please fill in your request details.",
-        });
+        toast.success(
+          "Requester information completed. Please fill in your request details."
+        );
       } else {
         // Trigger validation errors
         result.error.issues.forEach((issue) => {
@@ -74,9 +74,9 @@ export function RequestAssistanceForm() {
             message: issue.message,
           });
         });
-        toast.error("Please complete all required fields", {
-          description: "Check the highlighted fields and try again.",
-        });
+        toast.error(
+          "Please complete all required fields. Check the highlighted fields and try again."
+        );
       }
     }
   };
@@ -92,23 +92,33 @@ export function RequestAssistanceForm() {
       if (response.success) {
         setIsSubmitted(true);
         setSubmissionId(response.submissionId || "");
-        toast.success("Request submitted successfully!", {
-          description: `Request ID: ${response.submissionId}`,
-          duration: 5000,
-        });
+        toast.success(
+          `Request submitted successfully! Request ID: ${response.submissionId}`,
+          {
+            duration: 5000,
+          }
+        );
       }
     },
     onError: (error) => {
-      toast.error("Failed to submit request", {
-        description: error.message || "Please try again later.",
-        duration: 5000,
-      });
+      toast.error(
+        `Failed to submit request: ${
+          error.message || "Please try again later."
+        }`,
+        {
+          duration: 5000,
+        }
+      );
     },
   });
 
   const onSubmit = (data: RequestAssistanceFormData) => {
+    // Remove files from form data to avoid validation issues
+    const { files, ...formData } = data;
+
     const submitData = {
-      ...data,
+      ...formData,
+      files: fileAttachment ? [fileAttachment] : [],
       links,
     };
 

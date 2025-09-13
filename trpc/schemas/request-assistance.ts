@@ -26,9 +26,16 @@ export const requestDetailsSchema = z.object({
   linkUrl: z.string().url().optional().or(z.literal("")),
 });
 
+// File upload schema - files will be validated in router
+export const fileUploadSchema = z.object({
+  files: z.array(z.any()).optional(),
+  links: z.array(z.string().url()).optional(),
+});
+
 // Combined request assistance form schema
-export const requestAssistanceFormSchema =
-  requesterInfoSchema.merge(requestDetailsSchema);
+export const requestAssistanceFormSchema = requesterInfoSchema
+  .merge(requestDetailsSchema)
+  .merge(fileUploadSchema);
 
 // Request type options
 export const requestTypeOptions = [
