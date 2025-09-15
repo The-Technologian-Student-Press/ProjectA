@@ -8,7 +8,6 @@ const config = {
   theme: {
     extend: {
       colors: {
-        maroon: "#800000",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
