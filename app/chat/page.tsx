@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import FAQ from "@/components/chat/FAQ";
 
 export default function ChatPage() {
   return (
@@ -44,7 +45,7 @@ export default function ChatPage() {
         <div className="h-full flex flex-col">
           {/* Messages Area */}
           <div className="flex-1 overflow-y-auto space-y-4 pr-2" style={{ minHeight: 0 }}>
-            {/* Empty state - no messages yet */}
+            <FAQ />
           </div>
 
           {/* Input Section */}
