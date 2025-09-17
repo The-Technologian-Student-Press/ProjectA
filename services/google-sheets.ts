@@ -7,6 +7,10 @@ import type {
   GoogleSheetsResponse,
   GoogleSheetsValidationResponse,
 } from "../types/google-sheets";
+import {
+  PITCH_SUBMISSIONS_HEADERS,
+  REQUEST_ASSISTANCE_HEADERS,
+} from "../lib/constants/sheets-constants";
 
 class GoogleSheetsService {
   private readonly config: GoogleSheetsConfig;
@@ -37,17 +41,14 @@ class GoogleSheetsService {
     }
 
     try {
-      // Initialize JWT service account authentication
       const serviceAccountAuth = new JWT({
         email: this.config.serviceAccountEmail,
         key: this.config.privateKey,
         scopes: ["https://www.googleapis.com/auth/spreadsheets"],
       });
 
-      // Initialize the Google Sheets document with service account authentication
       this.doc = new GoogleSpreadsheet(this.config.sheetId, serviceAccountAuth);
 
-      // Load document info
       await this.doc.loadInfo();
 
       return this.doc;
@@ -65,13 +66,11 @@ class GoogleSheetsService {
     let sheet = doc.sheetsByTitle[sheetName];
 
     if (!sheet) {
-      // Create new worksheet (tab) if it doesn't exist
       sheet = await doc.addSheet({
         title: sheetName,
         headerValues: this.getSheetHeaders(sheetName),
       });
     } else {
-      // Always set headers for existing sheets to ensure they're correct
       const headers = this.getSheetHeaders(sheetName);
       await sheet.setHeaderRow(headers);
     }
@@ -81,38 +80,9 @@ class GoogleSheetsService {
 
   private getSheetHeaders(sheetName: string): string[] {
     if (sheetName === "Pitch Submissions") {
-      return [
-        "Submission ID",
-        "Full Name",
-        "Course and Year",
-        "CIT ID",
-        "Phone Number",
-        "Personal Email",
-        "Type of Pitch",
-        "About Pitch",
-        "Pen Name",
-        "Files",
-        "Links",
-        "Submitted At",
-      ];
+      return PITCH_SUBMISSIONS_HEADERS;
     } else if (sheetName === "Request Assistance") {
-      return [
-        "Submission ID",
-        "Full Name",
-        "Course and Year",
-        "ID Number",
-        "Phone Number",
-        "Personal Email",
-        "Organization Name",
-        "Type of Request",
-        "Request Date",
-        "Request Time",
-        "Location",
-        "Request Description",
-        "Files",
-        "Links",
-        "Submitted At",
-      ];
+      return REQUEST_ASSISTANCE_HEADERS;
     }
 
     return [];
@@ -122,7 +92,6 @@ class GoogleSheetsService {
     try {
       const sheet = await this.getOrCreateSheet("Pitch Submissions");
 
-      // Prepare row data
       const rowData = {
         "Submission ID": data.submissionId,
         "Full Name": data.fullName,
@@ -138,7 +107,6 @@ class GoogleSheetsService {
         "Submitted At": data.submittedAt,
       };
 
-      // Add row to sheet
       const row = await sheet.addRow(rowData, { raw: true });
 
       return {
@@ -163,7 +131,6 @@ class GoogleSheetsService {
     try {
       const sheet = await this.getOrCreateSheet("Request Assistance");
 
-      // Prepare row data
       const rowData = {
         "Submission ID": data.submissionId,
         "Full Name": data.fullName,
@@ -182,7 +149,6 @@ class GoogleSheetsService {
         "Submitted At": data.submittedAt,
       };
 
-      // Add row to sheet
       const row = await sheet.addRow(rowData, { raw: true });
 
       return {
@@ -208,7 +174,6 @@ class GoogleSheetsService {
     try {
       const doc = await this.initializeDoc();
 
-      // Check if we can access the document
       const _title = doc.title;
 
       return {
