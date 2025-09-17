@@ -1,27 +1,33 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import FAQ from "@/components/chat/FAQ";
 
 export default function ChatPage() {
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header Section */}
       <div className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
-            <Link href="/">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="hover:bg-accent"
-                aria-label="Go back"
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hover:bg-accent"
+              aria-label="Go back"
+              onClick={handleBack}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-sm">
                 <MessageCircle className="w-5 h-5 text-primary-foreground" />
@@ -44,7 +50,7 @@ export default function ChatPage() {
         <div className="h-full flex flex-col">
           {/* Messages Area */}
           <div className="flex-1 overflow-y-auto space-y-4 pr-2" style={{ minHeight: 0 }}>
-            {/* Empty state - no messages yet */}
+            <FAQ />
           </div>
 
           {/* Input Section */}

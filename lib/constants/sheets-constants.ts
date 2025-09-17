@@ -1,0 +1,32 @@
+export const PITCH_SUBMISSIONS_HEADERS = [
+  "Submission ID",
+  "Full Name",
+  "Course and Year",
+  "CIT ID",
+  "Phone Number",
+  "Personal Email",
+  "Type of Pitch",
+  "About Pitch",
+  "Pen Name",
+  "Files",
+  "Links",
+  "Submitted At",
+];
+
+export const REQUEST_ASSISTANCE_HEADERS = [
+  "Submission ID",
+  "Full Name",
+  "Course and Year",
+  "ID Number",
+  "Phone Number",
+  "Personal Email",
+  "Organization Name",
+  "Type of Request",
+  "Request Date",
+  "Request Time",
+  "Location",
+  "Request Description",
+  "Files",
+  "Links",
+  "Submitted At",
+];

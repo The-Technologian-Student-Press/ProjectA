@@ -4,8 +4,11 @@ node_modules
 tsconfig.tsbuildinfo
 
 # Serena project configuration
-.serena/project.yml
+.serena
 .vscode
+
+# Personal cursor directive (not shared with team)
+.cursorrules
 
 
 

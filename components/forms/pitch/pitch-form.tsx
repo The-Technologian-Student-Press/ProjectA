@@ -50,17 +50,21 @@ export function PitchForm() {
       if (response.success) {
         setIsSubmitted(true);
         setSubmissionId(response.submissionId || "");
-        toast.success("Pitch submitted successfully!", {
-          description: `Submission ID: ${response.submissionId}`,
-          duration: 5000,
-        });
+        toast.success(
+          `Pitch submitted successfully! Submission ID: ${response.submissionId}`,
+          {
+            duration: 5000,
+          }
+        );
       }
     },
     onError: (error) => {
-      toast.error("Failed to submit pitch", {
-        description: error.message || "Please try again later.",
-        duration: 5000,
-      });
+      toast.error(
+        `Failed to submit pitch: ${error.message || "Please try again later."}`,
+        {
+          duration: 5000,
+        }
+      );
     },
   });
 
@@ -78,9 +82,9 @@ export function PitchForm() {
       const result = personalInfoSchema.safeParse(personalInfoData);
       if (result.success) {
         setCurrentStep(2);
-        toast.success("Personal information completed", {
-          description: "Please fill in your pitch details.",
-        });
+        toast.success(
+          "Personal information completed. Please fill in your pitch details."
+        );
       } else {
         // Trigger validation errors
         result.error.issues.forEach((issue) => {
@@ -89,9 +93,9 @@ export function PitchForm() {
             message: issue.message,
           });
         });
-        toast.error("Please complete all required fields", {
-          description: "Check the highlighted fields and try again.",
-        });
+        toast.error(
+          "Please complete all required fields. Check the highlighted fields and try again."
+        );
       }
     }
   };
@@ -103,8 +107,11 @@ export function PitchForm() {
   };
 
   const onSubmit = (data: PitchFormData) => {
+    // Remove files from form data to avoid validation issues
+    const { files: formFiles, ...formData } = data;
+
     const submitData = {
-      ...data,
+      ...formData,
       files,
       links,
     };
@@ -118,7 +125,7 @@ export function PitchForm() {
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-muted flex items-center justify-center p-4">
-        <Card className="w-full max-w-2xl shadow-2xl border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm">
+        <Card className="w-full max-w-2xl shadow-2xl border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm py-0 rounded-lg pb-8">
           <CardHeader className="text-center relative overflow-visible pb-8">
             {/* Celebration background effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 opacity-50" />

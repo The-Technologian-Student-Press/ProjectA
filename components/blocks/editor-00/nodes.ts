@@ -1,5 +1,3 @@
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { ListItemNode, ListNode } from "@lexical/list";
 import {
   Klass,
   LexicalNode,
@@ -10,12 +8,4 @@ import {
 import { AutocompleteNode } from "@/components/editor/nodes/autocomplete-node";
 
 export const nodes: ReadonlyArray<Klass<LexicalNode> | LexicalNodeReplacement> =
-  [
-    HeadingNode,
-    ParagraphNode,
-    TextNode,
-    QuoteNode,
-    ListNode,
-    ListItemNode,
-    AutocompleteNode,
-  ];
+  [ParagraphNode, TextNode, AutocompleteNode];

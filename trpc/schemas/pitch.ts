@@ -20,17 +20,9 @@ export const pitchDetailsSchema = z.object({
   penName: z.string().min(1, "Pen name is required"),
 });
 
-// File upload schema
+// File upload schema - files will be validated in router
 export const fileUploadSchema = z.object({
-  files: z
-    .array(
-      z.object({
-        name: z.string(),
-        type: z.string(),
-        size: z.number(),
-      })
-    )
-    .optional(),
+  files: z.array(z.any()).optional(),
   links: z.array(z.string().url()).optional(),
 });
 

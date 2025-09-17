@@ -40,6 +40,7 @@ export function RequestAssistanceForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionId, setSubmissionId] = useState<string>("");
   const [fileAttachment, setFileAttachment] = useState<File | undefined>();
+  const [files, setFiles] = useState<File[]>([]);
   const [links, setLinks] = useState<string[]>([]);
 
   const form = useForm<RequestAssistanceFormData>({
@@ -63,9 +64,9 @@ export function RequestAssistanceForm() {
       const result = requesterInfoSchema.safeParse(requesterInfoData);
       if (result.success) {
         setCurrentStep(2);
-        toast.success("Requester information completed", {
-          description: "Please fill in your request details.",
-        });
+        toast.success(
+          "Requester information completed. Please fill in your request details."
+        );
       } else {
         // Trigger validation errors
         result.error.issues.forEach((issue) => {
@@ -74,9 +75,9 @@ export function RequestAssistanceForm() {
             message: issue.message,
           });
         });
-        toast.error("Please complete all required fields", {
-          description: "Check the highlighted fields and try again.",
-        });
+        toast.error(
+          "Please complete all required fields. Check the highlighted fields and try again."
+        );
       }
     }
   };
@@ -92,23 +93,33 @@ export function RequestAssistanceForm() {
       if (response.success) {
         setIsSubmitted(true);
         setSubmissionId(response.submissionId || "");
-        toast.success("Request submitted successfully!", {
-          description: `Request ID: ${response.submissionId}`,
-          duration: 5000,
-        });
+        toast.success(
+          `Request submitted successfully! Request ID: ${response.submissionId}`,
+          {
+            duration: 5000,
+          }
+        );
       }
     },
     onError: (error) => {
-      toast.error("Failed to submit request", {
-        description: error.message || "Please try again later.",
-        duration: 5000,
-      });
+      toast.error(
+        `Failed to submit request: ${
+          error.message || "Please try again later."
+        }`,
+        {
+          duration: 5000,
+        }
+      );
     },
   });
 
   const onSubmit = (data: RequestAssistanceFormData) => {
+    // Remove files from form data to avoid validation issues
+    const { files: formFiles, ...formData } = data;
+
     const submitData = {
-      ...data,
+      ...formData,
+      files: files.length > 0 ? files : fileAttachment ? [fileAttachment] : [],
       links,
     };
 
@@ -122,7 +133,7 @@ export function RequestAssistanceForm() {
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-muted flex items-center justify-center p-4">
-        <Card className="w-full max-w-2xl shadow-2xl border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm">
+        <Card className="w-full max-w-2xl shadow-2xl border-0 bg-gradient-to-br from-card to-card/95 backdrop-blur-sm py-0 rounded-lg pb-8">
           <CardHeader className="text-center relative overflow-visible pb-8">
             {/* Celebration background effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 opacity-50" />
@@ -303,6 +314,8 @@ export function RequestAssistanceForm() {
                     onPrevious={handlePreviousStep}
                     fileAttachment={fileAttachment}
                     setFileAttachment={setFileAttachment}
+                    files={files}
+                    setFiles={setFiles}
                     links={links}
                     setLinks={setLinks}
                     isSubmitting={submitMutation.isPending}
